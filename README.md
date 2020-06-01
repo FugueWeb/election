@@ -50,7 +50,7 @@ This requires some setup so please first follow these steps carefully.
 
 * `vote` - Block #7 is where you can cast your vote. You can enter either `0` or `1`, depending on your choice between the proposals.
 * `changeVote` - Block #1 is where you can change your vote if you have already voted. You may only do this once, you must have already voted, and you must not have delegated your vote.
-* `delegateVote` - Block #2 is where you can delegate another address to vote on your behalf. The delegate address must also be an approved voter, which you can confirm by following the instructions listed above in step #3. If the delegate address has already voted, the proposal they voted for is immediately incremented by one. If the delegate address has not yet voted, their vote weight is incremented by one.
+* `delegateVote` - Block #2 is where you can delegate another address to vote on your behalf. You may not delegate your vote to someone else if you have already voted. The delegate address must also be an approved voter, which you can confirm by following the instructions listed above in step #3. If the delegate address has already voted, the proposal they voted for is immediately incremented by one. If the delegate address has not yet voted, their vote weight is incremented by one.
 * `giveRightToVote` and `grantRole` - Blocks #3 and #4 can only be called by an admin. These are the means by which the smart contract admins are able to essentially register addresses to vote.
 
 ## Troubleshooting
