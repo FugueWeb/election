@@ -41,7 +41,7 @@ Use [this link](https://ropsten.etherscan.io/address/0x7b5647e019835438f8435c7b2
 
 This requires some setup so please first follow these steps carefully.
 
-1. Install the [Metamask](https://metamask.io/) browser extension and follow steps to setup and backup your wallet. Although a simple browser extension, you should only install Metamask on a laptop/computer *that you personally own* or on one for which you have been *given explicit permission*.
+1. Install the [Metamask](https://metamask.io/) browser extension (into Chrome, Firefox, or Brave) and follow steps to setup and backup your wallet. Although a simple browser extension, you should only install Metamask on a laptop/computer *that you personally own* or on one for which you have been *given explicit permission*.
 2. After installation, you should see a fox icon (i.e., the Metamask extension) in the top right of your browser. Click the icon and change the network (drop down menu, top center) to `Ropsten`.
 3. Email your Ethereum address to the project coordinator, or paste it into [this issue](https://github.com/FugueWeb/election/issues/1). This is the basic equivalent of voter registration. If you open Metamask, you can copy your address by clicking where it says `Account 1`. Note, if you have previously participated in a blockchain workshop run by the coordinator, you have already been registered.
     * You can confirm that the voter role has been granted to you by following [this link](https://ropsten.etherscan.io/address/0x7b5647e019835438f8435c7b2a9258d85d290ca5#readContract), copying the bytes32 variable in `#4 VOTER_ROLE` and pasting it along with your address in `#10 hasRole` and clicking `Query`. If you have been granted the role, it will return `true`.
