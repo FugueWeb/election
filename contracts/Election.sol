@@ -15,7 +15,6 @@ contract Election is Context, AccessControl {
     // Events
     event Voted(uint propNumber, address indexed voter);
     event ChangedVote(uint propNumber, address indexed voter);
-    event VoterAdded(address indexed donor);
 
     struct Voter {
         uint weight; // weight is accumulated by delegation
@@ -64,7 +63,6 @@ contract Election is Context, AccessControl {
         require(!voters[voter].voted, "Address has already voted");
         voters[voter].weight = 1;
         _setupRole(VOTER_ROLE, voter);
-        emit VoterAdded(voter);
     }
 
     /**
