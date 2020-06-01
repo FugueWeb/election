@@ -29,7 +29,7 @@ You can either read information from the smart contract, or write to the smart c
 Use [this link](https://ropsten.etherscan.io/address/0x7b5647e019835438f8435c7b2a9258d85d290ca5#readContract) to go to the Etherscan block explorer for the smart contract. There are many things you can see here relative to the history of the smart contract. Likely the main items of interest are seeing the current state of the `proposals` and the `voters`.
 
 * `proposals` - Scroll down and enter either `0` or `1` into block #11. There are only two valid proposal IDs (see Proposals section above) and so any other numbers entered will throw an error. Entering a valid proposal number will return the `name` of the proposal as well as the current `voteCount`.
-* `voters` - Scroll down to block #12 and enter a valid Ethereum address. This will return the following properties.
+* `voters` - Scroll down to block #12 and enter a valid Ethereum address. An example address of a registered voter is `0x5632aB6622614bc3eB4AeA5e04f431784d9E4D60`. This will return the following properties.
     * `weight` - If the address has been granted voting rights, the weight will be `1`. This value can be greater than 1 only if a voter has delegated their vote to another address and that address has not yet voted.
     * `voted` - Returns `true` if the address has already voted or delegated their vote.
     * `hasChangedVote` - Returns `true` if the address has changed their vote. Voters may only change their vote once.
