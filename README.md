@@ -57,6 +57,7 @@ This requires some setup so please first follow these steps carefully.
 
 * Ensure Metamask is unlocked and on the `Ropsten` test network
 * Ensure that you have sufficient funds to send transactions. You can get free test ether by request using [a faucet](https://faucet.ropsten.be/)
+* If you are using Brave browser and are getting an error on Etherscan saying Web3 is not detected, go into your Brave Settings -> Extensions -> Set your Web3 provider to Metamask
 * Ensure that you have approved Metamask to access Etherscan. You can check this by opening Metamask and going into Settings -> Connections. You should see `ropsten.etherscan.io` listed under "Connected". If it's not, add it. If it is already there, try removing and re-adding it. Then try step #5 again.
 * If your transactions are failing, try raising the `gas fee` to "fast"
 * If your transactions continue to fail, they may be unauthorized. You can check whether you have appropriate voting roles by following step #3 above, or by checking the state of your address following steps under "Read from the Contract"
