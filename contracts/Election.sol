@@ -92,6 +92,8 @@ contract Election is Context, AccessControl {
         if (delegate.voted) {
             // If delegate already voted, directly add to the number of votes
             proposals[delegate.vote].voteCount += sender.weight;
+            // Add sender weight to delegate as well in case delegate changes vote
+            delegate.weight += sender.weight;
             emit Voted(delegate.vote, _msgSender());
         } else {
             // If delegate did not vote yet, add to weight.
@@ -128,6 +130,7 @@ contract Election is Context, AccessControl {
         require(proposal < 2, "Invalid proposal number");
         require(sender.vote != proposal, "New proposal is same as current vote");
         require(sender.delegate == address(0), "Voter must not have delegated");
+        //require(sender.weight == 1, "Delegates may not change vote"); Uncomment if applicable
 
         // Remove vote from old proposal
         uint oldProposal = sender.vote;
