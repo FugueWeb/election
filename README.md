@@ -61,3 +61,17 @@ This requires some setup so please first follow these steps carefully.
 * Ensure that you have approved Metamask to access Etherscan. You can check this by opening Metamask and going into Settings -> Connections. You should see `ropsten.etherscan.io` listed under "Connected". If it's not, add it. If it is already there, try removing and re-adding it. Then try step #5 again.
 * If your transactions are failing, try raising the `gas fee` to "fast"
 * If your transactions continue to fail, they may be unauthorized. You can check whether you have appropriate voting roles by following step #3 above, or by checking the state of your address following steps under "Read from the Contract"
+
+## Discussion
+
+* What are some of the ramifications of allowing voter delegation?
+    * Should there be a limit on the number of delegate votes a voter can receive?
+* Assuming this type of model introduces improvements to a status quo electoral system (i.e., ease of voting, improved transparency, higher turnout), why might a power structure *not* want it to succeed?
+* What are some concerns about the voter registration process? Consider this in light of a permissioned blockchain versus a public, decentralized blockchain (similar to intranet vs internet).
+
+## Resources
+
+* [US Postal Service Files Blockchain Voting Patent](https://cointelegraph.com/news/us-postal-service-files-blockchain-voting-patent-following-trump-cuts)
+    * [Patent](https://pdfaiw.uspto.gov/.aiw?docid=20200258338&PageNum=32&IDKey=7A4F4EA40D1F)
+    > “A voting system can use the security of blockchain and the mail to provide a reliable voting system. A registered voter receives a computer-readable code in the mail and confirms identity and confirms correct ballot information in an election. The system separates voter identification and votes to ensure vote anonymity, and stores votes on a distributed ledger in a blockchain.”
+* [MakerDAO](https://twitter.com/MakerDAO/status/1294326266879815685)
