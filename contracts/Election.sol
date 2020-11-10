@@ -3,17 +3,19 @@ pragma solidity ^0.6.0;
 import "../node_modules/@openzeppelin/contracts/access/AccessControl.sol";
 import "../node_modules/@openzeppelin/contracts/GSN/Context.sol";
 import "../node_modules/@openzeppelin/contracts/math/SafeMath.sol";
+import "./VoteNFT.sol";
 
-contract Election is Context, AccessControl {
+contract Election is Context, AccessControl, VoteNFT {
     using SafeMath for uint256;
-    uint public constant ELECTION_DEADLINE = 1604448000; //1590344189
+    uint public constant ELECTION_DEADLINE = 1605092400; //1604448000
+    string constant TOKEN_URI = "https://ropsten.etherscan.io/tx/";
 
     // OZ access control
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant VOTER_ROLE = keccak256("VOTER_ROLE");
 
     // Events
-    event Voted(uint propNumber, address indexed voter);
+    event Voted(uint propNumber, address indexed voter, uint256 newNFT);
     event ChangedVote(uint propNumber, address indexed voter);
 
     struct Voter {
@@ -41,8 +43,8 @@ contract Election is Context, AccessControl {
         _setupRole(VOTER_ROLE, _msgSender());
         voters[_msgSender()].weight = 1;
 
-        proposals.push(Proposal({name: "Beagle - AP", voteCount: 0}));
-        proposals.push(Proposal({name: "Pointer - Justify", voteCount: 0}));
+        proposals.push(Proposal({name: "Beagle-AP", voteCount: 0}));
+        proposals.push(Proposal({name: "Pointer-J", voteCount: 0}));
     }
 
     modifier onlyAdmin() {
@@ -94,7 +96,7 @@ contract Election is Context, AccessControl {
             proposals[delegate.vote].voteCount += sender.weight;
             // Add sender weight to delegate as well in case delegate changes vote
             delegate.weight += sender.weight;
-            emit Voted(delegate.vote, _msgSender());
+            emit Voted(delegate.vote, _msgSender(), 0); //not rewarding NFT for delegation
         } else {
             // If delegate did not vote yet, add to weight.
             delegate.weight += sender.weight;
@@ -116,7 +118,9 @@ contract Election is Context, AccessControl {
         sender.vote = proposal;
 
         proposals[proposal].voteCount += sender.weight;
-        emit Voted(proposal, _msgSender());
+        //Reward proposer with NFT
+        uint256 NFT_ID = awardItem(_msgSender(), TOKEN_URI);
+        emit Voted(proposal, _msgSender(), NFT_ID);
     }
 
     /**
@@ -144,16 +148,18 @@ contract Election is Context, AccessControl {
     }
 
     /**
-     * @dev Computes the winning proposal taking all previous votes into account.
+     * @dev Computes then returns the winning proposal, taking all previous votes into account.
      */
     function winningProposal() internal view returns (uint) {
         uint winningVoteCount = 0;
+        uint wProposal;
         for (uint p = 0; p < proposals.length; p++) {
             if (proposals[p].voteCount > winningVoteCount) {
                 winningVoteCount = proposals[p].voteCount;
-                return p;
+                wProposal = p;
             }
         }
+        return wProposal;
     }
 
     /**

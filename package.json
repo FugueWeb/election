@@ -1,7 +1,7 @@
 {
     "name": "election",
-    "version": "1.0.0",
-    "description": "",
+    "version": "1.2020.11",
+    "description": "Blockchain based election and voting model",
     "main": "truffle-config.js",
     "directories": {
         "test": "test"
@@ -11,7 +11,7 @@
     },
     "keywords": [],
     "author": "FugueWeb",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "@openzeppelin/contracts": "^3.0.1",
         "@truffle/hdwallet-provider": "^1.0.33",
