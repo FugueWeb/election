@@ -7,7 +7,7 @@ import "./VoteNFT.sol";
 
 contract Election is Context, AccessControl, VoteNFT {
     using SafeMath for uint256;
-    uint public constant ELECTION_DEADLINE = 1605092400; //1604448000
+    uint public constant ELECTION_DEADLINE = 1606249800; //1604448000
     string constant TOKEN_URI = "https://ropsten.etherscan.io/tx/";
 
     // OZ access control
@@ -43,8 +43,8 @@ contract Election is Context, AccessControl, VoteNFT {
         _setupRole(VOTER_ROLE, _msgSender());
         voters[_msgSender()].weight = 1;
 
-        proposals.push(Proposal({name: "Beagle-AP", voteCount: 0}));
-        proposals.push(Proposal({name: "Pointer-J", voteCount: 0}));
+        proposals.push(Proposal({name: "Beagle - c581df931280999d4c56383792010822ee46738fd10ea78f21e66e5200ebea8f", voteCount: 0}));
+        proposals.push(Proposal({name: "Pointer - 232059828116bac90319383c422e45f751f046009a2cc010c2c8d956cbcc6215", voteCount: 0}));
     }
 
     modifier onlyAdmin() {

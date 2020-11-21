@@ -21,9 +21,9 @@ module.exports = {
      provider: function() {
        return new HDWalletProvider(mnemonic, infura)
      },
-     network_id: 3,
-     gas : 7721975, //default: 6721975
-     gasPrice : 150000000000 //default: 100000000000
+     network_id: 3
+    //  gas : 7721975, //default: 6721975
+    //  gasPrice : 150000000000 //default: 100000000000
    }           
   },
   compilers: {

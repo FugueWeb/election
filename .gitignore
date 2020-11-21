@@ -2,6 +2,8 @@
 /dist
 /tmp
 /out-tsc
+/misc
+
 # Only exists if Bazel was run
 /bazel-out
 /build
