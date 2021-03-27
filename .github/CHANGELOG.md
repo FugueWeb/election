@@ -1,5 +1,11 @@
 # Change Log
 
+## 20210327
+
+* Added `requestAccess` function to Elections.sol
+* Updated events to show `electionID`, added `NewVoterRequest` event
+* Change `VoteNFT` name to `deVoted`
+
 ## 20210314
 
 * Created `Elections.sol` contract to allow a single smart contract to conduct multiple elections. This is linked with the `deVoted` project, see separate repo.

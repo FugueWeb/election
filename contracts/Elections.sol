@@ -15,10 +15,12 @@ contract Elections is Context, AccessControl, VoteNFT {
     bytes32 public constant VOTER_ROLE = keccak256("VOTER_ROLE");
 
     // Events
-    event Voted(uint propNumber, address indexed voter, uint256 newNFT);
-    event ChangedVote(uint propNumber, address indexed voter);
     event NewElection(uint eid, uint deadline);
     event VoterRegistered(address indexed registeredVoter, uint electionID);
+    event NewVoterRequest(address indexed newVoter);
+    event Voted(uint propNumber, uint eid, address indexed voter, uint256 newNFT);
+    event Delegated(address indexed delegate, uint eid, address indexed voter);
+    event ChangedVote(uint propNumber, uint eid, address indexed voter);
 
     struct Voter {
         uint weight; // weight is accumulated by delegation
@@ -47,6 +49,7 @@ contract Elections is Context, AccessControl, VoteNFT {
     constructor() public {
         _setupRole(ADMIN_ROLE, _msgSender());
         _setupRole(VOTER_ROLE, _msgSender());
+        _setRoleAdmin(VOTER_ROLE, ADMIN_ROLE); //sets admin role in charge of voter role
     }
 
     modifier onlyAdmin() {
@@ -77,6 +80,14 @@ contract Elections is Context, AccessControl, VoteNFT {
     }
 
     /**
+     * @dev Public function allowing users to request for admin to register their address
+     */
+    function requestAccess() public {
+        require(!hasRole(VOTER_ROLE, _msgSender()), "ALREADY_HAS_VOTER_ROLE");
+        emit NewVoterRequest(_msgSender());
+    }
+
+    /**
      * @dev Give `voter` the right to vote and register for elections
      * @param voter address to grant voting access
      */
@@ -86,12 +97,22 @@ contract Elections is Context, AccessControl, VoteNFT {
     }
 
     /**
+     * @dev Revoke registered `voter` from participating in elections
+     * @param voter address being revoked voting access
+     */
+    function revokeVoter(address voter) public onlyAdmin {
+        require(hasRole(VOTER_ROLE, voter), "VOTER_MUST_ALREADY_HAVE_ROLE");
+        revokeRole(VOTER_ROLE, voter);
+    }
+
+    /**
      * @dev Voter with `VOTER_ROLE` self registers for a given election
      * @param electionID ID for the election the voter wants to vote in
      */
     function registerForElection(uint electionID) public onlyVoter {
         Election storage e = elections[electionID];
         require(!e.voters[_msgSender()].registered, "VOTER_ALREADY_REGISTERED");
+        require(block.timestamp < e.deadline, "Voting deadline has expired");
         e.voters[_msgSender()].weight += 1;
         e.voters[_msgSender()].registered = true;
         emit VoterRegistered(_msgSender(), electionID);
@@ -128,10 +149,12 @@ contract Elections is Context, AccessControl, VoteNFT {
             e.proposals[delegate.vote].voteCount += sender.weight;
             // Add sender weight to delegate as well in case delegate changes vote
             delegate.weight += sender.weight;
-            emit Voted(delegate.vote, _msgSender(), 0); //not rewarding NFT for delegation
+            // Emit `Voted` event since Delegate has already voted; no NFT rewarded for delegation
+            emit Voted(delegate.vote, electionID, _msgSender(), 0); 
         } else {
             // If delegate did not vote yet, add to weight.
             delegate.weight += sender.weight;
+            emit Delegated(sender.delegate, electionID, _msgSender());
         }
     }
 
@@ -155,7 +178,7 @@ contract Elections is Context, AccessControl, VoteNFT {
         e.proposals[proposal].voteCount += sender.weight;
         //Reward proposer with NFT
         uint256 NFT_ID = awardItem(_msgSender(), TOKEN_URI);
-        emit Voted(proposal, _msgSender(), NFT_ID);
+        emit Voted(proposal, electionID, _msgSender(), NFT_ID);
     }
 
     /**
@@ -183,7 +206,7 @@ contract Elections is Context, AccessControl, VoteNFT {
         sender.vote = proposal;
         e.proposals[proposal].voteCount += sender.weight;
         sender.hasChangedVote = true;
-        emit ChangedVote(proposal, _msgSender());
+        emit ChangedVote(proposal, electionID, _msgSender());
     }
 
     /**
@@ -192,8 +215,8 @@ contract Elections is Context, AccessControl, VoteNFT {
      */
     function winningProposal(uint electionID) internal view returns (uint) {
         Election storage e = elections[electionID];
-        uint winningVoteCount = 0;
-        uint wProposal;
+        // uint winningVoteCount = 0;
+        // uint wProposal;
         uint prop0 = e.proposals[0].voteCount;
         uint prop1 = e.proposals[1].voteCount;
         if (prop0 > prop1){

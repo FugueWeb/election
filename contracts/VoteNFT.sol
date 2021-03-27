@@ -7,7 +7,7 @@ contract VoteNFT is ERC721 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("iVoted!", "VOTE") public {
+    constructor() ERC721("deVoted", "VOTE") public {
     }
 
     function awardItem(address recipient, string memory tokenURI) public returns (uint256) {
